@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import AddTask from "./AddTask";
 import { useDispatch, useSelector } from "react-redux";
-import { BsCircle } from "react-icons/bs";
+import { BsCircle, BsCheckCircleFill } from "react-icons/bs";
 import { FiEdit3 } from "react-icons/fi";
 import { MdOutlineClose } from "react-icons/md";
 import { Link } from "react-router-dom";
-import { removeTaskAction } from "../redux/actions/ActionsTask";
+import { editTaskAction, removeTaskAction } from "../redux/actions/ActionsTask";
 
 function ListTask() {
   const [hoveredTaskId, setHoveredTaskId] = useState(null);
@@ -14,12 +14,31 @@ function ListTask() {
   const removeBtn = (id) => {
     dispatch(removeTaskAction(id));
   };
+  const toggleDone = (id) => {
+    const updatedTask = tasks.find((task) => task.id === id);
+    updatedTask.isDone = !updatedTask.isDone;
+    dispatch(editTaskAction(updatedTask));
+  };
+
+  const [filteredTasks, setFilteredTasks] = useState(tasks);
+
+  const showAllTasks = () => {
+    setFilteredTasks(tasks);
+  };
+
+  const showDoneTasks = () => {
+    setFilteredTasks(tasks.filter((task) => task.isDone));
+  };
+
+  const showNotDoneTasks = () => {
+    setFilteredTasks(tasks.filter((task) => !task.isDone));
+  };
 
   return (
     <>
       <AddTask />
       <div>
-        {tasks.map((task, index) => {
+        {filteredTasks.map((task, index) => {
           const isHovered = task.id === hoveredTaskId;
           return (
             <div
@@ -28,22 +47,25 @@ function ListTask() {
               onMouseEnter={() => setHoveredTaskId(task.id)}
               onMouseLeave={() => setHoveredTaskId(null)}
             >
-              <button className="flex-no-shrink p-2 mr-4 text-green  hover:bg-green">
-                <BsCircle />
+              <button
+                className="flex gap-3 p-2 mr-4 text-gray-800 text-[20px] w-full"
+                onClick={() => toggleDone(task.id)}
+              >
+                {task.isDone ? <BsCheckCircleFill /> : <BsCircle />}
+                <p className="w-full flex justify-start text-grey-950 whitespace-normal text-[14px]">
+                  {task.description}
+                </p>
               </button>
-              <p className="w-full text-grey-950 whitespace-normal ">{task.description}</p>
-
               {isHovered && (
-                <div className="flex p-2">
+                <div className="flex gap-2 items-center p-2">
                   <Link to={`/edit/${task.id}`}>
-                    <button className="flex-no-shrink px-1.5 py-1 rounded text-blue-600 hover:text-white hover:bg-blue-600">
+                    <button className=" text-gray-800 hover:text-blue-600 text-[20px] translate-y-1">
                       <FiEdit3 />
                     </button>
                   </Link>
-
                   <button
                     onClick={() => removeBtn(task.id)}
-                    className="flex-no-shrink px-1.5 py-1 rounded text-red-600 hover:text-white hover:bg-red-600 "
+                    className=" text-gray-800 hover:text-red-600  text-[25px]"
                   >
                     <MdOutlineClose />
                   </button>
@@ -52,14 +74,14 @@ function ListTask() {
             </div>
           );
         })}
-        <hr className="my-1"/>
+        <hr className="my-1" />
         <div className="flex flex-col items-center">
           <div className="flex w-full justify-evenly p-2 ">
-            <button>All</button>
-            <button>Done</button>
-            <button>Not done</button>
+            <button onClick={showAllTasks}>All</button>
+            <button onClick={showDoneTasks}>Done</button>
+            <button onClick={showNotDoneTasks}>Not done</button>
           </div>
-          <span>count Task</span>
+          <span>{filteredTasks.length} tasks</span>
         </div>
       </div>
     </>

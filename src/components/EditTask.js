@@ -20,23 +20,24 @@ function EditTask() {
         isDone: false,
       })
     );
+    setDescription("")
       navigate("/")
   };
 
   return (
     <div className="mb-4">
-      <h1 className="text-grey-darkest">Todo List</h1>
+      <h1 className="text-gray-800">Todo List</h1>
       <div className="flex mt-4">
         <input
           type="text"
-          className="shadow appearance-none border rounded w-full py-2 px-3 mr-4 text-grey-darker"
+          className="shadow appearance-none border rounded w-full py-2 px-3 mr-4 text-gray-800"
           placeholder="Add Todo"
           value={description}
           onChange={(e) => setDescription(e.target.value)}
         />
         <button
           onClick={editBtn}
-          className="flex-no-shrink p-2 border-2 rounded text-teal border-teal hover:text-white hover:bg-teal"
+          className="flex-no-shrink p-2 border-2 rounded text-teal border-teal text-gray-800 hover:text-green-600 "
         >
           Update
         </button>
