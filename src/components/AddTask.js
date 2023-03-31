@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-
-
-
+import {AiOutlinePlus} from "react-icons/ai"
 import { addTaskAction } from "../redux/actions/ActionsTask";
 
 
@@ -40,9 +38,9 @@ function AddTask() {
         />
         <button
           onClick={addBtn}
-          className="flex-no-shrink p-2 border-2 rounded text-teal border-teal hover:text-white hover:bg-teal"
+          className="flex-no-shrink py-2 px-3 border-2 rounded text-teal border-teal hover:text-white hover:bg-teal "
         >
-          Add
+         <AiOutlinePlus/>
         </button>
       </div>
     </div>
