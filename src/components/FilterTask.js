@@ -18,12 +18,12 @@ function FilterTask({ tasks,filteredTasks, onFilterChange }) {
     
       return (
         <div className="flex flex-col items-center">
-          <div className="flex w-full justify-evenly p-2 ">
-            <button onClick={showAllTasks}>All</button>
-            <button onClick={showDoneTasks}>Done</button>
-            <button onClick={showNotDoneTasks}>Not done</button>
+          <div className="flex w-full justify-around p-2 ">
+            <button onClick={showAllTasks} className="bg-gray-700 hover:bg-gray-800 text-white py-1 px-5 rounded">All ({tasks.length})</button>
+            <button onClick={showDoneTasks} className="bg-gray-700 hover:bg-gray-800 text-white py-1 px-5 rounded">Done ({doneTasks.length})</button>
+            <button onClick={showNotDoneTasks} className="bg-gray-700 hover:bg-gray-800 text-white py-1 px-5 rounded">Not done ({notDoneTasks.length})</button>
           </div>
-          <span>{filteredTasks.length} Task</span>
+
         </div>
       );
     }

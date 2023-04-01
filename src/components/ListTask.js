@@ -86,7 +86,7 @@ function ListTask() {
                   </Link>
                   <button
                     onClick={() => removeBtn(task.id)}
-                    className=" text-gray-800 hover:text-red-600  text-[25px]"
+                    className=" text-gray-800 hover:text-red-600  text-[25px] "
                   >
                     <MdOutlineClose />
                   </button>
@@ -95,8 +95,9 @@ function ListTask() {
             </div>
           );
         })}
-        <hr className="w-48 h-1 mx-auto my-4 bg-gray-100 border-0 rounded md:my-10 dark:bg-gray-700" />
+        <hr className="w-60 h-0.5 mx-auto my-2 bg-gray-100 border-0 rounded md:my-4 dark:bg-gray-300" />
         <FilterTask tasks={tasks} filteredTasks={filteredTasks} onFilterChange={handleFilterChange}/>
+        
       </div>
     </>
   );
