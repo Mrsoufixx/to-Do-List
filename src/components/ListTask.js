@@ -7,18 +7,37 @@ import { MdOutlineClose } from "react-icons/md";
 import { Link } from "react-router-dom";
 import { editTaskAction, removeTaskAction } from "../redux/actions/ActionsTask";
 import FilterTask from "./FilterTask";
+import Swal from "sweetalert2";
 
 function ListTask() {
   const [hoveredTaskId, setHoveredTaskId] = useState(null);
   const tasks = useSelector((data) => data.tasks);
   const dispatch = useDispatch();
   const removeBtn = (id) => {
-    dispatch(removeTaskAction(id));
+    Swal.fire({
+      title: 'Are you sure?',
+      text: 'You will not be able to recover this task!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Yes, delete it!',
+      cancelButtonText: 'Cancel',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        dispatch(removeTaskAction(id));
+        Swal.fire(
+          'Deleted!',
+          'Your task has been deleted.',
+          'success'
+        );
+      }
+    });
   };
   const toggleDone = (id) => {
     const updatedTask = tasks.find((task) => task.id === id);
     updatedTask.isDone = !updatedTask.isDone;
     dispatch(editTaskAction(updatedTask));
+    
+    
   };
 
 
@@ -76,8 +95,8 @@ function ListTask() {
             </div>
           );
         })}
-        <hr class="w-48 h-1 mx-auto my-4 bg-gray-100 border-0 rounded md:my-10 dark:bg-gray-700" />
-        <FilterTask tasks={tasks} onFilterChange={handleFilterChange}/>
+        <hr className="w-48 h-1 mx-auto my-4 bg-gray-100 border-0 rounded md:my-10 dark:bg-gray-700" />
+        <FilterTask tasks={tasks} filteredTasks={filteredTasks} onFilterChange={handleFilterChange}/>
       </div>
     </>
   );

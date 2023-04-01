@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {AiOutlinePlus} from "react-icons/ai"
 import { addTaskAction } from "../redux/actions/ActionsTask";
+import Swal from "sweetalert2";
 
 
 function AddTask() {
@@ -12,6 +13,14 @@ function AddTask() {
 
   const dispatch = useDispatch();
   const addBtn = () => {
+    Swal.fire({
+      position: 'top',
+      color: '#68B984',
+      background: '#D7E9B9',
+      title: 'Task Added',
+      showConfirmButton: false,
+      timer: 1000
+    })
     dispatch(
       addTaskAction({
         id: idCount + 1,

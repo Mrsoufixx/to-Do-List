@@ -1,6 +1,8 @@
-function FilterTask({ tasks, onFilterChange }) {
+function FilterTask({ tasks,filteredTasks, onFilterChange }) {
       const doneTasks = tasks.filter((task) => task.isDone);
       const notDoneTasks = tasks.filter((task) => !task.isDone);
+    console.log("notDoneTasks", notDoneTasks)
+    console.log("doneTasks", doneTasks)
     
       const showAllTasks = () => {
         onFilterChange(tasks);
@@ -21,7 +23,7 @@ function FilterTask({ tasks, onFilterChange }) {
             <button onClick={showDoneTasks}>Done</button>
             <button onClick={showNotDoneTasks}>Not done</button>
           </div>
-          <span>{tasks.length} Task</span>
+          <span>{filteredTasks.length} Task</span>
         </div>
       );
     }

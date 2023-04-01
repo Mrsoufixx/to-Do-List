@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 
 import { editTaskAction } from "../redux/actions/ActionsTask";
+import Swal from "sweetalert2";
 
 
 function EditTask() {
@@ -13,6 +14,13 @@ function EditTask() {
   const navigate = useNavigate()
   const dispatch = useDispatch();
   const editBtn = () => {
+    Swal.fire({
+      position: 'center',
+      icon: 'success',
+      title: 'Task Updated',
+      showConfirmButton: false,
+      timer: 1500
+    })
     dispatch(
       editTaskAction({
         id: id,
