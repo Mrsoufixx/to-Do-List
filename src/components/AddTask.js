@@ -13,14 +13,6 @@ function AddTask() {
 
   const dispatch = useDispatch();
   const addBtn = () => {
-    Swal.fire({
-      position: 'top',
-      color: '#68B984',
-      background: '#D7E9B9',
-      title: 'Task Added',
-      showConfirmButton: false,
-      timer: 1000
-    })
     dispatch(
       addTaskAction({
         id: idCount + 1,
@@ -30,7 +22,26 @@ function AddTask() {
       
     );
     setDescription("")
+    showAddedAlert()
    
+  };
+  const showAddedAlert = () => {
+    const Toast = Swal.mixin({
+      toast: true,
+      position: "top-end",
+      showConfirmButton: false,
+      timer: 3000,
+      timerProgressBar: true,
+      didOpen: (toast) => {
+        toast.addEventListener("mouseenter", Swal.stopTimer);
+        toast.addEventListener("mouseleave", Swal.resumeTimer);
+      },
+    });
+
+    Toast.fire({
+      icon: "success",
+      title: "Task Added",
+    });
   };
 
   return (
@@ -41,8 +52,10 @@ function AddTask() {
         <input
           type="text"
           className="shadow appearance-none border rounded w-full py-2 px-3 mr-4 text-grey-darker"
-          placeholder="Add Todo"
+          placeholder="Add Tasks"
+          value={description}
           onChange={(e) => setDescription(e.target.value)}
+          required
         />
         <button
           onClick={addBtn}
