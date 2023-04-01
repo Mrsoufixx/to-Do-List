@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import AddTask from "./AddTask";
 import { useDispatch, useSelector } from "react-redux";
 import { BsCircle, BsCheckCircleFill } from "react-icons/bs";
@@ -6,6 +6,7 @@ import { FiEdit3 } from "react-icons/fi";
 import { MdOutlineClose } from "react-icons/md";
 import { Link } from "react-router-dom";
 import { editTaskAction, removeTaskAction } from "../redux/actions/ActionsTask";
+import FilterTask from "./FilterTask";
 
 function ListTask() {
   const [hoveredTaskId, setHoveredTaskId] = useState(null);
@@ -20,20 +21,15 @@ function ListTask() {
     dispatch(editTaskAction(updatedTask));
   };
 
+
   const [filteredTasks, setFilteredTasks] = useState(tasks);
-
-  const showAllTasks = () => {
+  const handleFilterChange = (tasks)=>{
+    setFilteredTasks(tasks)
+  }
+  
+  useEffect(() => {
     setFilteredTasks(tasks);
-  };
-
-  const showDoneTasks = () => {
-    setFilteredTasks(tasks.filter((task) => task.isDone));
-  };
-
-  const showNotDoneTasks = () => {
-    setFilteredTasks(tasks.filter((task) => !task.isDone));
-  };
-
+  }, [tasks]);
   return (
     <>
       <AddTask />
@@ -48,12 +44,18 @@ function ListTask() {
               onMouseLeave={() => setHoveredTaskId(null)}
             >
               <button
-                className="flex gap-3 p-2 mr-4 text-gray-800 text-[20px] w-full"
+                className={`flex items-center p-2 mr-4 text-[20px] w-full ${
+                  task.isDone ? "text-green-600" : "text-gray-900"
+                }`}
                 onClick={() => toggleDone(task.id)}
               >
                 {task.isDone ? <BsCheckCircleFill /> : <BsCircle />}
-                <p className="w-full flex justify-start text-grey-950 whitespace-normal text-[14px]">
-                  {task.description}
+                <p
+                  className={`w-full flex ml-4 justify-start  whitespace-normal text-[14px]  ${
+                    task.isDone ? "line-through" : ""
+                  }`}
+                >
+                  {`${task.description[0].toUpperCase()}${task.description.slice(1,task.description.length)}`}
                 </p>
               </button>
               {isHovered && (
@@ -74,15 +76,8 @@ function ListTask() {
             </div>
           );
         })}
-        <hr className="my-1" />
-        <div className="flex flex-col items-center">
-          <div className="flex w-full justify-evenly p-2 ">
-            <button onClick={showAllTasks}>All</button>
-            <button onClick={showDoneTasks}>Done</button>
-            <button onClick={showNotDoneTasks}>Not done</button>
-          </div>
-          <span>{filteredTasks.length} tasks</span>
-        </div>
+        <hr class="w-48 h-1 mx-auto my-4 bg-gray-100 border-0 rounded md:my-10 dark:bg-gray-700" />
+        <FilterTask tasks={tasks} onFilterChange={handleFilterChange}/>
       </div>
     </>
   );
